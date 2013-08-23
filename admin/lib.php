@@ -28,7 +28,7 @@ class database {
     private $conn = null;
 
     function __construct() {
-        $this->conn = new PDO('sqlite:tienda.sqlite');
+        $this->conn = new PDO('sqlite:../db/tienda.sqlite');
     }
 
     function adicionarCategoria(categoria $categoria) {
@@ -48,6 +48,7 @@ class database {
 
 }
 
+$db = new database();
 
 //Ruta a la Base de datos
 /* Sentencia SQL
