@@ -40,10 +40,22 @@ class database {
     function obtenerTodoCategoria() {
         $sql = "SELECT * FROM categoria";
         $tmp = array();
-        foreach ($conn->query($sql) as $key => $value) {
+        foreach ($this->conn->query($sql) as $key => $value) {
             array_push($tmp, new categoria($value["id"],$value["nombre"]));
         }
         return $tmp;
+    }
+    function obtenerCategoria($id){
+        $sql = "SELECT * FROM categoria where id=:id";
+        $res = $this->conn->prepare($sql);
+        $res->execute(array("id" => $id));
+        $tmp = $this->conn->query($sql);
+        if(is_array($tmp)){
+            $categoria = new categoria($tmp["id"],$tmp["nombre"]);
+            return $categoria;
+        }else{
+            return false;
+        }
     }
 
 }

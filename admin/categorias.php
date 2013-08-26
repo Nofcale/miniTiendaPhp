@@ -1,11 +1,21 @@
 <?php
 include_once 'lib.php';
-global $db;
+$categoria = new categoria("","");
 
 if (isset($_POST["enviar"])) {
     $cat_temp = new categoria(0, "");
     $cat_temp->nombre = $_POST["nombre"];
     $db->adicionarCategoria($cat_temp);
+}
+if(isset($_GET["accion"]) && isset($_GET["id"])){
+    switch($_GET["accion"]){
+        case "editar":
+            $edicion = TRUE;
+            $categoria = $db->obtenerCategoria($_GET["id"]);
+            break;
+    }
+}else{
+    $categoria = new categoria("","");
 }
 ?>
 <!DOCTYPE html>
@@ -18,31 +28,33 @@ if (isset($_POST["enviar"])) {
     </head>
     <body>
         <div class="container">
-            <div class="span6">
+            <div class="span5">
                 <h2 id="producto">Adicionar Categoría</h2>
                 <p></p>
                 <form class="bs-example" role="form" action="categorias.php" method="POST">
                     <div class="form-group">
                         <label for="nombrecategoria">Nombre</label>
-                        <input name="nombre" type="text" class="form-control" id="nombrecategoria" placeholder="Escriba el nombre completo">
+                        <input name="nombre" type="text" class="form-control" id="nombrecategoria" placeholder="Escriba el nombre completo" value="<?php echo $categoria->nombre;?>">
                     </div>
                     <input type="submit" class="btn btn-default" name="enviar" value="Guardar" />
                 </form>
             </div>
-            <div class="span6">
-                <table>
+            <div class="span7">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         foreach ($db->obtenerTodoCategoria() as $value) {
                         echo "<tr>
-                                <td></td>
-                                <td></td>
+                                <td>{$value->id}</td>
+                                <td>{$value->nombre}</td>
+                                <td><a href='categorias.php?accion=editar&id={$value->id}'>editar</a></td>
                                </tr>";
                         }
                         ?>
