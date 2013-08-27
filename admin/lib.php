@@ -20,7 +20,7 @@ class categoria {
         $this->id = $id;
         $this->nombre = $nombre;
     }
-    
+
 }
 
 class database {
@@ -41,19 +41,20 @@ class database {
         $sql = "SELECT * FROM categoria";
         $tmp = array();
         foreach ($this->conn->query($sql) as $key => $value) {
-            array_push($tmp, new categoria($value["id"],$value["nombre"]));
+            array_push($tmp, new categoria($value["id"], $value["nombre"]));
         }
         return $tmp;
     }
-    function obtenerCategoria($id){
+
+    function obtenerCategoria($id) {
         $sql = "SELECT * FROM categoria where id=:id";
         $res = $this->conn->prepare($sql);
         $res->execute(array("id" => $id));
         $tmp = $this->conn->query($sql);
-        if(is_array($tmp)){
-            $categoria = new categoria($tmp["id"],$tmp["nombre"]);
+        if (is_array($tmp)) {
+            $categoria = new categoria($tmp["id"], $tmp["nombre"]);
             return $categoria;
-        }else{
+        } else {
             return false;
         }
     }
@@ -62,22 +63,13 @@ class database {
 
 $db = new database();
 
-//Ruta a la Base de datos
-/* Sentencia SQL
-  $sql = 'SELECT * FROM empresa';
-  //Ejecución de la sentencia y captura de datos
-  foreach ($conn->query($sql) as $row) {
-  echo $row['id'] . " " . $row['nombre'] . "<br>";
-  }
+function menu() {
+    echo'<div class="logo">&nbsp;</div>
+        <ul class="nav nav-pills nav-stacked menu">
+            <li class="active"><a href="/admin">Home</a></li>
+            <li><a href="/admin/categorias.php">Categoría</a></li>
+            <li><a href="/admin/productos.php">Productos</a></li>
+        </ul>';
+}
 
-  $sql = 'SELECT *
-  FROM localizacion
-  WHERE id_nodo = :idnodo';
-  $cons = $conn->prepare($sql);
-  $cons->execute(array(':idnodo' => 1));
-  $res = $cons->fetchAll();
-  foreach ($res as $row) {
-  echo "el nodo 1 en la fecha " . $row["fecha"] . " pasó por " . $row["barrio"] . "<br>";
-  }
- * */
 ?>
