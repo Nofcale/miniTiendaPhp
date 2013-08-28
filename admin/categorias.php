@@ -7,9 +7,13 @@ include_once 'lib.php';
 $categoria = new categoria("", "");
 
 if (isset($_POST["enviar"])) {
-    $cat_temp = new categoria(0, "");
-    $cat_temp->nombre = $_POST["nombre"];
-    $db->adicionarCategoria($cat_temp);
+    
+    //Para no guardar nombres vacios en la BD
+    if (!$_POST["nombre"]=="") {
+        $cat_temp = new categoria(0, "");
+        $cat_temp->nombre = $_POST["nombre"];
+        $db->adicionarCategoria($cat_temp);
+    }
 }
 if (isset($_GET["accion"]) && isset($_GET["id"])) {
     switch ($_GET["accion"]) {
