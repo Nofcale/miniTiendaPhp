@@ -1,5 +1,8 @@
-
 <?php
+/**
+ * Ejemplos de PHP básico
+ * @license @jairoserrano
+ */
 
 class producto {
 
@@ -63,13 +66,24 @@ class database {
 
 $db = new database();
 
-function menu() {
-    echo'<div class="logo">&nbsp;</div>
-        <ul class="nav nav-pills nav-stacked menu">
-            <li class="active"><a href="/admin">Home</a></li>
-            <li><a href="/admin/categorias.php">Categoría</a></li>
-            <li><a href="/admin/productos.php">Productos</a></li>
-        </ul>';
+/**
+ * Menú del backend
+ */
+function admin_menu() {
+    $current = explode("/", $_SERVER["PHP_SELF"])[2];
+    $menu = array("Admin" => "index.php", "Categorías" => "categorias.php", "Productos" => "productos.php");
+
+    echo'<div class="logo">&nbsp;</div>';
+    
+    echo '<ul class="nav nav-pills nav-stacked menu">';
+    foreach ($menu as $key => $value) { 
+        if ($current == $value) {
+            echo "<li class='active'><a href='$value'>$key</a></li>";
+        } else {
+            echo "<li><a href='$value'>$key</a></li>";
+        }
+    }
+    echo '</ul>';
 }
 
 ?>
